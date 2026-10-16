@@ -1,6 +1,7 @@
 """Tests for Paseo switch platform."""
 
 import pytest
+
 from custom_components.paseo.const import CONF_AUTO_ACCEPT, DOMAIN
 from custom_components.paseo.coordinator import PaseoDataUpdateCoordinator
 from custom_components.paseo.switch import (

@@ -1,7 +1,9 @@
 """Tests for Paseo integration setup and teardown."""
 
 from unittest.mock import AsyncMock, patch
+
 import pytest
+
 from custom_components.paseo import (
     async_reload_entry,
     async_setup,

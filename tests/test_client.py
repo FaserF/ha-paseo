@@ -1,8 +1,10 @@
 """Tests for the Paseo API client."""
 
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock
+
 import aiohttp
 import pytest
+
 from custom_components.paseo.client import (
     CannotConnect,
     InvalidAuth,

@@ -11,9 +11,7 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .const import (
     AVAILABLE_MODELS,
     CONF_AI_TASK_MODEL,
-    CONF_CONVERSATION_MODEL,
     DEFAULT_AI_TASK_MODEL,
-    DEFAULT_CONVERSATION_MODEL,
     DOMAIN,
 )
 from .coordinator import PaseoDataUpdateCoordinator
@@ -31,48 +29,9 @@ async def async_setup_entry(
 
     async_add_entities(
         [
-            PaseoConversationModelSelect(coordinator, entry),
             PaseoAiTaskModelSelect(coordinator, entry),
         ]
     )
-
-
-class PaseoConversationModelSelect(
-    CoordinatorEntity[PaseoDataUpdateCoordinator], SelectEntity
-):
-    """Select entity for the conversation model."""
-
-    _attr_has_entity_name = True
-    _attr_translation_key = "conversation_model"
-    _attr_name = "Conversation Model"
-    _attr_icon = "mdi:brain"
-    _attr_options = AVAILABLE_MODELS
-
-    def __init__(
-        self, coordinator: PaseoDataUpdateCoordinator, entry: ConfigEntry
-    ) -> None:
-        """Initialize the select entity."""
-        super().__init__(coordinator)
-        self.entry = entry
-        self._attr_unique_id = f"{entry.entry_id}_conversation_model"
-        sw_version = coordinator.data.get("version") if coordinator.data else None
-        self._attr_device_info = get_device_info(entry, sw_version)
-
-    @property
-    def current_option(self) -> str:
-        """Return the current selected model."""
-        return str(
-            self.entry.options.get(
-                CONF_CONVERSATION_MODEL, DEFAULT_CONVERSATION_MODEL
-            )
-        )
-
-    async def async_select_option(self, option: str) -> None:
-        """Change the selected model."""
-        new_options = dict(self.entry.options)
-        new_options[CONF_CONVERSATION_MODEL] = option
-        self.hass.config_entries.async_update_entry(self.entry, options=new_options)
-        self.async_write_ha_state()
 
 
 class PaseoAiTaskModelSelect(

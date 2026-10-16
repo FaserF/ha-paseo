@@ -1,7 +1,9 @@
 """Tests for Paseo button platform."""
 
 from unittest.mock import AsyncMock
+
 import pytest
+
 from custom_components.paseo.button import (
     PaseoRefreshButton,
     PaseoValidateConfigButton,

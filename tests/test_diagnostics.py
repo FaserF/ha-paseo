@@ -1,6 +1,7 @@
 """Tests for Paseo diagnostics."""
 
 import pytest
+
 from custom_components.paseo.const import DOMAIN
 from custom_components.paseo.coordinator import PaseoDataUpdateCoordinator
 from custom_components.paseo.diagnostics import async_get_config_entry_diagnostics

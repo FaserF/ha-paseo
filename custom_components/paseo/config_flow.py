@@ -18,25 +18,15 @@ from .const import (
     CONF_AI_TASK_PROMPT,
     CONF_API_KEY,
     CONF_AUTO_ACCEPT,
-    CONF_CONVERSATION_MODEL,
-    CONF_MAX_TOKENS,
     CONF_NAME,
     CONF_POLL_INTERVAL,
-    CONF_PROMPT,
-    CONF_TEMPERATURE,
-    CONF_TOP_P,
     CONF_URL,
     CONF_WORKSPACE,
     DEFAULT_AI_TASK_MODEL,
     DEFAULT_AI_TASK_PROMPT,
     DEFAULT_AUTO_ACCEPT,
-    DEFAULT_CONVERSATION_MODEL,
-    DEFAULT_MAX_TOKENS,
     DEFAULT_NAME,
     DEFAULT_POLL_INTERVAL,
-    DEFAULT_PROMPT,
-    DEFAULT_TEMPERATURE,
-    DEFAULT_TOP_P,
     DEFAULT_URL,
     DEFAULT_WORKSPACE,
     DOMAIN,
@@ -84,15 +74,10 @@ class PaseoConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         "hostname": hostname,
                     },
                     options={
-                        CONF_CONVERSATION_MODEL: DEFAULT_CONVERSATION_MODEL,
-                        CONF_PROMPT: DEFAULT_PROMPT,
                         CONF_AI_TASK_MODEL: DEFAULT_AI_TASK_MODEL,
                         CONF_AI_TASK_PROMPT: DEFAULT_AI_TASK_PROMPT,
                         CONF_WORKSPACE: DEFAULT_WORKSPACE,
                         CONF_AUTO_ACCEPT: DEFAULT_AUTO_ACCEPT,
-                        CONF_TEMPERATURE: DEFAULT_TEMPERATURE,
-                        CONF_TOP_P: DEFAULT_TOP_P,
-                        CONF_MAX_TOKENS: DEFAULT_MAX_TOKENS,
                         CONF_POLL_INTERVAL: DEFAULT_POLL_INTERVAL,
                     },
                 )
@@ -162,16 +147,6 @@ class PaseoOptionsFlow(config_entries.OptionsFlow):
         schema = vol.Schema(
             {
                 vol.Optional(
-                    CONF_CONVERSATION_MODEL,
-                    default=options.get(
-                        CONF_CONVERSATION_MODEL, DEFAULT_CONVERSATION_MODEL
-                    ),
-                ): vol.In(AVAILABLE_MODELS),
-                vol.Optional(
-                    CONF_PROMPT,
-                    default=options.get(CONF_PROMPT, DEFAULT_PROMPT),
-                ): str,
-                vol.Optional(
                     CONF_AI_TASK_MODEL,
                     default=options.get(CONF_AI_TASK_MODEL, DEFAULT_AI_TASK_MODEL),
                 ): vol.In(AVAILABLE_MODELS),
@@ -187,18 +162,6 @@ class PaseoOptionsFlow(config_entries.OptionsFlow):
                     CONF_AUTO_ACCEPT,
                     default=options.get(CONF_AUTO_ACCEPT, DEFAULT_AUTO_ACCEPT),
                 ): bool,
-                vol.Optional(
-                    CONF_TEMPERATURE,
-                    default=options.get(CONF_TEMPERATURE, DEFAULT_TEMPERATURE),
-                ): vol.All(vol.Coerce(float), vol.Range(min=0.0, max=2.0)),
-                vol.Optional(
-                    CONF_TOP_P,
-                    default=options.get(CONF_TOP_P, DEFAULT_TOP_P),
-                ): vol.All(vol.Coerce(float), vol.Range(min=0.0, max=1.0)),
-                vol.Optional(
-                    CONF_MAX_TOKENS,
-                    default=options.get(CONF_MAX_TOKENS, DEFAULT_MAX_TOKENS),
-                ): vol.All(vol.Coerce(int), vol.Range(min=256, max=32768)),
                 vol.Optional(
                     CONF_POLL_INTERVAL,
                     default=options.get(CONF_POLL_INTERVAL, DEFAULT_POLL_INTERVAL),

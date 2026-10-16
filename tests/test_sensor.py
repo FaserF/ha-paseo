@@ -1,6 +1,7 @@
 """Tests for Paseo sensor platform."""
 
 import pytest
+
 from custom_components.paseo.const import DOMAIN
 from custom_components.paseo.coordinator import PaseoDataUpdateCoordinator
 from custom_components.paseo.sensor import (

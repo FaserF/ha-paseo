@@ -1,7 +1,9 @@
 """Tests for Paseo config flow and options flow."""
 
-from unittest.mock import AsyncMock, patch
+from unittest.mock import patch
+
 import pytest
+
 from custom_components.paseo.client import CannotConnect, InvalidAuth
 from custom_components.paseo.config_flow import PaseoConfigFlow, PaseoOptionsFlow
 from custom_components.paseo.const import (
@@ -9,7 +11,6 @@ from custom_components.paseo.const import (
     CONF_CONVERSATION_MODEL,
     CONF_NAME,
     CONF_URL,
-    DOMAIN,
 )
 
 

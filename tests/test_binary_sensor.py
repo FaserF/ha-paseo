@@ -1,6 +1,7 @@
 """Tests for Paseo binary sensor platform."""
 
 import pytest
+
 from custom_components.paseo.binary_sensor import (
     PaseoBusyBinarySensor,
     PaseoConnectedBinarySensor,

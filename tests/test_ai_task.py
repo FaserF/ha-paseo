@@ -1,7 +1,9 @@
 """Tests for Paseo AI Task platform."""
 
 from unittest.mock import AsyncMock
+
 import pytest
+
 from custom_components.paseo.ai_task import (
     PaseoAITaskEntity,
     async_setup_entry,

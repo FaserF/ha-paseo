@@ -1,8 +1,8 @@
 """Tests for the Paseo DataUpdateCoordinator."""
 
-from unittest.mock import AsyncMock, MagicMock
 import pytest
 from homeassistant.helpers.update_coordinator import UpdateFailed
+
 from custom_components.paseo.client import CannotConnect, InvalidAuth
 from custom_components.paseo.coordinator import PaseoDataUpdateCoordinator
 
