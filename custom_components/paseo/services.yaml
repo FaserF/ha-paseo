@@ -167,37 +167,3 @@ refresh_status:
         config_entry:
           integration: paseo
 
-generate_image:
-  name: Generate Image
-  description: Generate an AI image or diagram via Paseo / OmniRoute engine.
-  fields:
-    prompt:
-      name: Image Prompt
-      description: Detailed description of the image or diagram to render.
-      required: true
-      example: "A futuristic smart home network dashboard with glowing nodes"
-      selector:
-        text:
-          multiline: true
-    model:
-      name: Model
-      description: Image generation model.
-      required: false
-      default: "omniroute/flux-schnell"
-      selector:
-        text:
-    size:
-      name: Size
-      description: Image resolution dimensions (e.g. 1024x1024).
-      required: false
-      default: "1024x1024"
-      selector:
-        text:
-    config_entry_id:
-      name: Target Paseo Instance
-      description: Optional config entry ID.
-      required: false
-      selector:
-        config_entry:
-          integration: paseo
-

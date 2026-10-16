@@ -39,15 +39,6 @@ from .const import (
     DEFAULT_TOP_P,
     DEFAULT_URL,
     DEFAULT_WORKSPACE,
-    AVAILABLE_STT_MODELS,
-    AVAILABLE_TTS_MODELS,
-    AVAILABLE_TTS_VOICES,
-    CONF_STT_MODEL,
-    CONF_TTS_MODEL,
-    CONF_TTS_VOICE,
-    DEFAULT_STT_MODEL,
-    DEFAULT_TTS_MODEL,
-    DEFAULT_TTS_VOICE,
     DOMAIN,
 )
 
@@ -208,18 +199,6 @@ class PaseoOptionsFlow(config_entries.OptionsFlow):
                     CONF_MAX_TOKENS,
                     default=options.get(CONF_MAX_TOKENS, DEFAULT_MAX_TOKENS),
                 ): vol.All(vol.Coerce(int), vol.Range(min=256, max=32768)),
-                vol.Optional(
-                    CONF_TTS_VOICE,
-                    default=options.get(CONF_TTS_VOICE, DEFAULT_TTS_VOICE),
-                ): vol.In(AVAILABLE_TTS_VOICES),
-                vol.Optional(
-                    CONF_TTS_MODEL,
-                    default=options.get(CONF_TTS_MODEL, DEFAULT_TTS_MODEL),
-                ): vol.In(AVAILABLE_TTS_MODELS),
-                vol.Optional(
-                    CONF_STT_MODEL,
-                    default=options.get(CONF_STT_MODEL, DEFAULT_STT_MODEL),
-                ): vol.In(AVAILABLE_STT_MODELS),
                 vol.Optional(
                     CONF_POLL_INTERVAL,
                     default=options.get(CONF_POLL_INTERVAL, DEFAULT_POLL_INTERVAL),
