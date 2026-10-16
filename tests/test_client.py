@@ -32,7 +32,9 @@ async def test_client_get_status_success():
     mock_session.closed = False
     mock_session.get.return_value.__aenter__.return_value = mock_resp
 
-    client = PaseoClient("http://127.0.0.1:6767", api_key="secret", session=mock_session)
+    client = PaseoClient(
+        "http://127.0.0.1:6767", api_key="secret", session=mock_session
+    )
     res = await client.async_get_status()
 
     assert res["status"] == "server_info"
@@ -81,7 +83,9 @@ async def test_client_call_mcp_rpc_success():
     mock_session.closed = False
     mock_session.post.return_value.__aenter__.return_value = mock_resp
 
-    client = PaseoClient("http://127.0.0.1:6767", api_key="secret", session=mock_session)
+    client = PaseoClient(
+        "http://127.0.0.1:6767", api_key="secret", session=mock_session
+    )
     res = await client.async_call_mcp_rpc("tools/list", {})
     assert "tools" in res
     assert res["tools"][0]["name"] == "create_agent"
@@ -100,6 +104,8 @@ async def test_client_call_mcp_rpc_error():
     mock_session.closed = False
     mock_session.post.return_value.__aenter__.return_value = mock_resp
 
-    client = PaseoClient("http://127.0.0.1:6767", api_key="secret", session=mock_session)
+    client = PaseoClient(
+        "http://127.0.0.1:6767", api_key="secret", session=mock_session
+    )
     with pytest.raises(PaseoRpcError):
         await client.async_call_mcp_rpc("invalid_method", {})

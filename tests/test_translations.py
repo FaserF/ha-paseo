@@ -28,5 +28,11 @@ def test_translations_validity():
     assert "entity" in strings_data
     assert "services" in strings_data
 
-    assert strings_data["config"]["step"]["user"]["data"].keys() == en_data["config"]["step"]["user"]["data"].keys()
-    assert strings_data["config"]["step"]["user"]["data"].keys() == de_data["config"]["step"]["user"]["data"].keys()
+    assert (
+        strings_data["config"]["step"]["user"]["data"].keys()
+        == en_data["config"]["step"]["user"]["data"].keys()
+    )
+    assert (
+        strings_data["config"]["step"]["user"]["data"].keys()
+        == de_data["config"]["step"]["user"]["data"].keys()
+    )

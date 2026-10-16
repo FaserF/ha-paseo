@@ -25,11 +25,12 @@ async def test_async_setup(mock_hass):
 async def test_async_setup_entry(mock_hass, mock_config_entry, mock_client):
     """Test async_setup_entry."""
     mock_hass.data = {}
-    with patch(
-        "custom_components.paseo.PaseoClient", return_value=mock_client
-    ), patch(
-        "custom_components.paseo.PaseoDataUpdateCoordinator.async_config_entry_first_refresh",
-        new=AsyncMock(),
+    with (
+        patch("custom_components.paseo.PaseoClient", return_value=mock_client),
+        patch(
+            "custom_components.paseo.PaseoDataUpdateCoordinator.async_config_entry_first_refresh",
+            new=AsyncMock(),
+        ),
     ):
         result = await async_setup_entry(mock_hass, mock_config_entry)
         assert result is True
@@ -62,4 +63,6 @@ async def test_async_unload_entry(mock_hass, mock_config_entry, mock_client):
 async def test_async_reload_entry(mock_hass, mock_config_entry):
     """Test async_reload_entry."""
     await async_reload_entry(mock_hass, mock_config_entry)
-    mock_hass.config_entries.async_reload.assert_awaited_once_with(mock_config_entry.entry_id)
+    mock_hass.config_entries.async_reload.assert_awaited_once_with(
+        mock_config_entry.entry_id
+    )

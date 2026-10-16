@@ -36,9 +36,7 @@ async def async_setup_entry(
     )
 
 
-class PaseoRefreshButton(
-    CoordinatorEntity[PaseoDataUpdateCoordinator], ButtonEntity
-):
+class PaseoRefreshButton(CoordinatorEntity[PaseoDataUpdateCoordinator], ButtonEntity):
     """Button to force refresh telemetry from Paseo."""
 
     _attr_has_entity_name = True
