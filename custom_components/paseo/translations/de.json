@@ -97,6 +97,27 @@
       },
       "ai_task_model": {
         "name": "AI-Task-Modell"
+      },
+      "tts_voice": {
+        "name": "TTS-Stimme"
+      },
+      "stt_model": {
+        "name": "STT-Sprachmodell"
+      }
+    },
+    "image": {
+      "latest_image": {
+        "name": "Zuletzt generiertes Bild"
+      }
+    },
+    "stt": {
+      "stt": {
+        "name": "Sprache-zu-Text"
+      }
+    },
+    "tts": {
+      "tts": {
+        "name": "Text-zu-Sprache"
       }
     }
   },
@@ -124,6 +145,10 @@
     "refresh_status": {
       "name": "Telemetrie aktualisieren",
       "description": "Erzwingt einen sofortigen Abruf des Paseo-Serverstatus."
+    },
+    "generate_image": {
+      "name": "Bild generieren",
+      "description": "Generiert ein KI-Bild oder Diagramm über die Paseo- / OmniRoute-Engine."
     }
   }
 }

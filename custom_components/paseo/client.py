@@ -285,3 +285,132 @@ class PaseoClient:
             raise CannotConnect(f"Timeout on chat completion to {url}") from err
         except aiohttp.ClientError as err:
             raise CannotConnect(f"ClientError on chat completion to {url}: {err}") from err
+
+    async def async_text_to_speech(
+        self,
+        text: str,
+        model: str = "kokoro-en-v0_19",
+        voice: str = "af_heart",
+        response_format: str = "mp3",
+        speed: float = 1.0,
+    ) -> bytes:
+        """Synthesize text into speech audio bytes using Paseo/OmniRoute TTS."""
+        session = await self._get_session()
+        headers = self._get_headers()
+        payload = {
+            "model": model,
+            "input": text,
+            "voice": voice,
+            "response_format": response_format,
+            "speed": speed,
+        }
+
+        # Try standard v1 endpoint followed by Paseo speech endpoint
+        endpoints = [
+            f"{self._base_url}/v1/audio/speech",
+            f"{self._base_url}/api/speech/synthesize",
+        ]
+
+        last_err: Exception | None = None
+        for url in endpoints:
+            try:
+                async with asyncio.timeout(self._timeout):
+                    async with session.post(url, headers=headers, json=payload) as resp:
+                        if resp.status == 401:
+                            raise InvalidAuth("Invalid authentication for TTS")
+                        if resp.status == 200:
+                            return await resp.read()
+                        last_err = PaseoError(f"HTTP {resp.status} on TTS: {await resp.text()}")
+            except (TimeoutError, aiohttp.ClientError) as err:
+                last_err = err
+                continue
+
+        raise CannotConnect(f"TTS synthesis failed on Paseo: {last_err}")
+
+    async def async_speech_to_text(
+        self,
+        audio_data: bytes,
+        model: str = "parakeet-tdt-0.6b-v2-int8",
+        language: str | None = None,
+        response_format: str = "json",
+    ) -> str:
+        """Transcribe speech audio bytes to text using Paseo/OmniRoute STT."""
+        session = await self._get_session()
+        headers = self._get_headers()
+        headers.pop("Content-Type", None)
+
+        data = aiohttp.FormData()
+        data.add_field(
+            "file",
+            audio_data,
+            filename="audio.wav",
+            content_type="audio/wav",
+        )
+        data.add_field("model", model)
+        data.add_field("response_format", response_format)
+        if language:
+            data.add_field("language", language)
+
+        endpoints = [
+            f"{self._base_url}/v1/audio/transcriptions",
+            f"{self._base_url}/api/speech/transcribe",
+        ]
+
+        last_err: Exception | None = None
+        for url in endpoints:
+            try:
+                async with asyncio.timeout(self._timeout):
+                    async with session.post(url, headers=headers, data=data) as resp:
+                        if resp.status == 401:
+                            raise InvalidAuth("Invalid authentication for STT")
+                        if resp.status == 200:
+                            if response_format == "json":
+                                result = await resp.json()
+                                return result.get("text", "")
+                            return await resp.text()
+                        last_err = PaseoError(f"HTTP {resp.status} on STT: {await resp.text()}")
+            except (TimeoutError, aiohttp.ClientError) as err:
+                last_err = err
+                continue
+
+        raise CannotConnect(f"STT transcription failed on Paseo: {last_err}")
+
+    async def async_generate_image(
+        self,
+        prompt: str,
+        model: str = "omniroute/flux-schnell",
+        size: str = "1024x1024",
+        quality: str = "standard",
+        n: int = 1,
+    ) -> list[str]:
+        """Generate images matching prompt via Paseo / OmniRoute image engine."""
+        session = await self._get_session()
+        url = f"{self._base_url}/v1/images/generations"
+        headers = self._get_headers()
+
+        payload = {
+            "model": model,
+            "prompt": prompt,
+            "size": size,
+            "quality": quality,
+            "n": n,
+        }
+
+        try:
+            async with asyncio.timeout(self._timeout * 2):
+                async with session.post(url, headers=headers, json=payload) as resp:
+                    if resp.status == 401:
+                        raise InvalidAuth("Invalid authentication for image generation")
+                    if resp.status != 200:
+                        raise PaseoError(f"HTTP {resp.status} generating image: {await resp.text()}")
+                    data = await resp.json()
+                    images: list[str] = []
+                    for item in data.get("data", []):
+                        if "url" in item:
+                            images.append(item["url"])
+                        elif "b64_json" in item:
+                            images.append(item["b64_json"])
+                    return images
+        except (TimeoutError, aiohttp.ClientError) as err:
+            raise CannotConnect(f"Image generation failed: {err}") from err
+

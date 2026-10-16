@@ -264,6 +264,9 @@ mock_submodule("homeassistant.components.diagnostics")
 mock_submodule("homeassistant.components.conversation")
 mock_submodule("homeassistant.helpers.device_registry")
 mock_submodule("homeassistant.helpers.entity_registry")
+mock_submodule("homeassistant.components.stt")
+mock_submodule("homeassistant.components.tts")
+mock_submodule("homeassistant.components.image")
 
 # Assign standard attributes
 ha_const = sys.modules["homeassistant.const"]
@@ -274,6 +277,9 @@ ha_const.Platform = types.SimpleNamespace(
     BUTTON="button",
     SELECT="select",
     SWITCH="switch",
+    STT="stt",
+    TTS="tts",
+    IMAGE="image",
     AI_TASK="ai_task",
 )
 ha_const.CONF_NAME = "name"
@@ -496,6 +502,58 @@ conv_module.intent = types.SimpleNamespace(IntentResponse=MockIntentResponse)
 mock_submodule("homeassistant.helpers.intent")
 sys.modules["homeassistant.helpers.intent"].IntentResponse = MockIntentResponse
 
+# STT Module
+stt_mod = sys.modules["homeassistant.components.stt"]
+
+
+class MockSpeechToTextEntity(MockEntity):
+    pass
+
+
+@dataclass
+class MockSpeechResult:
+    text: str
+    result: Any
+
+
+stt_mod.SpeechToTextEntity = MockSpeechToTextEntity
+stt_mod.SpeechMetadata = MagicMock
+stt_mod.SpeechResult = MockSpeechResult
+stt_mod.SpeechResultState = types.SimpleNamespace(SUCCESS="success", ERROR="error")
+stt_mod.AudioFormats = types.SimpleNamespace(WAV="wav", OGG="ogg")
+stt_mod.AudioCodecs = types.SimpleNamespace(PCM="pcm", OPUS="opus")
+stt_mod.AudioBitRates = types.SimpleNamespace(BITRATE_16=16, BITRATE_32=32)
+stt_mod.AudioSampleRates = types.SimpleNamespace(
+    SAMPLERATE_8000=8000,
+    SAMPLERATE_16000=16000,
+    SAMPLERATE_44100=44100,
+    SAMPLERATE_48000=48000,
+)
+stt_mod.AudioChannels = types.SimpleNamespace(CHANNEL_MONO=1, CHANNEL_STEREO=2)
+
+# TTS Module
+tts_mod = sys.modules["homeassistant.components.tts"]
+
+
+class MockTextToSpeechEntity(MockEntity):
+    pass
+
+
+tts_mod.TextToSpeechEntity = MockTextToSpeechEntity
+tts_mod.TtsAudioType = Any
+
+# Image Module
+img_mod = sys.modules["homeassistant.components.image"]
+
+
+class MockImageEntity(MockEntity):
+    def __init__(self, hass: Any = None) -> None:
+        super().__init__()
+        self.hass = hass
+
+
+img_mod.ImageEntity = MockImageEntity
+
 cfg_module = sys.modules["homeassistant.config_entries"]
 cfg_module.ConfigFlow = MockConfigFlow
 cfg_module.OptionsFlow = MockOptionsFlow
@@ -565,6 +623,9 @@ def mock_client():
             ]
         }
     )
+    client.async_text_to_speech = AsyncMock(return_value=b"fake-mp3-bytes")
+    client.async_speech_to_text = AsyncMock(return_value="Transcribed speech text")
+    client.async_generate_image = AsyncMock(return_value=["https://example.com/image.png"])
     client.close = AsyncMock()
     return client
 

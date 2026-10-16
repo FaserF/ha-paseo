@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import base64
 import logging
 from typing import Any
 
@@ -15,6 +16,7 @@ from .const import (
     DOMAIN,
     SERVICE_CREATE_AGENT,
     SERVICE_EXECUTE_TASK,
+    SERVICE_GENERATE_IMAGE,
     SERVICE_REFRESH_STATUS,
     SERVICE_SEND_PROMPT,
     SERVICE_STOP_AGENT,
@@ -62,6 +64,15 @@ SCHEMA_EXECUTE_TASK = vol.Schema(
 
 SCHEMA_TARGET = vol.Schema(
     {
+        vol.Optional("config_entry_id"): cv.string,
+    }
+)
+
+SCHEMA_GENERATE_IMAGE = vol.Schema(
+    {
+        vol.Required("prompt"): cv.string,
+        vol.Optional("model", default="omniroute/flux-schnell"): cv.string,
+        vol.Optional("size", default="1024x1024"): cv.string,
         vol.Optional("config_entry_id"): cv.string,
     }
 )
@@ -159,6 +170,32 @@ async def async_setup_services(hass: HomeAssistant) -> None:
         _, coordinator = _get_entry_client(hass, call)
         await coordinator.async_request_refresh()
 
+    async def handle_generate_image(call: ServiceCall) -> None:
+        """Handle generating an AI image via Paseo / OmniRoute."""
+        client, coordinator = _get_entry_client(hass, call)
+        prompt = call.data["prompt"]
+        model = call.data.get("model", "omniroute/flux-schnell")
+        size = call.data.get("size", "1024x1024")
+
+        _LOGGER.info("Generating AI image for prompt: '%s'", prompt[:60])
+        images = await client.async_generate_image(prompt=prompt, model=model, size=size)
+        if images:
+            img_val = images[0]
+            img_bytes: bytes | None = None
+            if img_val.startswith("http"):
+                session = await client._get_session()
+                async with session.get(img_val) as resp:
+                    if resp.status == 200:
+                        img_bytes = await resp.read()
+            else:
+                img_bytes = base64.b64decode(img_val)
+
+            if img_bytes:
+                entry_data = hass.data[DOMAIN].get(coordinator.entry.entry_id, {})
+                image_entity = entry_data.get("latest_image_entity")
+                if image_entity:
+                    image_entity.set_image(img_bytes)
+
     hass.services.async_register(
         DOMAIN, SERVICE_CREATE_AGENT, handle_create_agent, schema=SCHEMA_CREATE_AGENT
     )
@@ -176,4 +213,7 @@ async def async_setup_services(hass: HomeAssistant) -> None:
     )
     hass.services.async_register(
         DOMAIN, SERVICE_REFRESH_STATUS, handle_refresh_status, schema=SCHEMA_TARGET
+    )
+    hass.services.async_register(
+        DOMAIN, SERVICE_GENERATE_IMAGE, handle_generate_image, schema=SCHEMA_GENERATE_IMAGE
     )

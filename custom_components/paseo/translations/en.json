@@ -97,6 +97,27 @@
       },
       "ai_task_model": {
         "name": "AI Task Model"
+      },
+      "tts_voice": {
+        "name": "TTS Voice"
+      },
+      "stt_model": {
+        "name": "STT Model"
+      }
+    },
+    "image": {
+      "latest_image": {
+        "name": "Latest Generated Image"
+      }
+    },
+    "stt": {
+      "stt": {
+        "name": "Speech-to-Text"
+      }
+    },
+    "tts": {
+      "tts": {
+        "name": "Text-to-Speech"
       }
     }
   },
@@ -124,6 +145,10 @@
     "refresh_status": {
       "name": "Refresh Telemetry",
       "description": "Force an immediate polling cycle for Paseo server state."
+    },
+    "generate_image": {
+      "name": "Generate Image",
+      "description": "Generate an AI image or diagram via Paseo / OmniRoute engine."
     }
   }
 }
