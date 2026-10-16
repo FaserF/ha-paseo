@@ -166,5 +166,5 @@ async def async_setup_services(hass: HomeAssistant) -> None:
         (SERVICE_VALIDATE_CONFIG, handle_validate_config, SCHEMA_TARGET),
         (SERVICE_REFRESH_STATUS, handle_refresh_status, SCHEMA_TARGET),
     ]:
-        if not (hass.services.has_service(DOMAIN, name) is True):
+        if hass.services.has_service(DOMAIN, name) is not True:
             hass.services.async_register(DOMAIN, name, handler, schema=schema)
