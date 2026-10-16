@@ -598,19 +598,13 @@ def mock_client():
         ]
     )
     client.async_list_agents = AsyncMock(
-        return_value=[
-            {"id": "agent_1", "title": "Test Agent", "status": "running"}
-        ]
+        return_value=[{"id": "agent_1", "title": "Test Agent", "status": "running"}]
     )
     client.async_create_agent = AsyncMock(
         return_value={"agentId": "agent_123", "status": "created"}
     )
-    client.async_send_agent_prompt = AsyncMock(
-        return_value={"status": "sent"}
-    )
-    client.async_stop_agent = AsyncMock(
-        return_value={"status": "stopped"}
-    )
+    client.async_send_agent_prompt = AsyncMock(return_value={"status": "sent"})
+    client.async_stop_agent = AsyncMock(return_value={"status": "stopped"})
     client.async_chat_completion = AsyncMock(
         return_value={
             "choices": [
@@ -625,7 +619,9 @@ def mock_client():
     )
     client.async_text_to_speech = AsyncMock(return_value=b"fake-mp3-bytes")
     client.async_speech_to_text = AsyncMock(return_value="Transcribed speech text")
-    client.async_generate_image = AsyncMock(return_value=["https://example.com/image.png"])
+    client.async_generate_image = AsyncMock(
+        return_value=["https://example.com/image.png"]
+    )
     client.close = AsyncMock()
     return client
 

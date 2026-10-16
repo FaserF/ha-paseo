@@ -14,7 +14,9 @@ from custom_components.paseo.coordinator import PaseoDataUpdateCoordinator
 
 
 @pytest.mark.asyncio
-async def test_binary_sensor_setup_and_states(mock_hass, mock_config_entry, mock_client):
+async def test_binary_sensor_setup_and_states(
+    mock_hass, mock_config_entry, mock_client
+):
     """Test setting up Paseo binary sensors and checking states."""
     coordinator = PaseoDataUpdateCoordinator(mock_hass, mock_config_entry, mock_client)
     await coordinator.async_refresh()

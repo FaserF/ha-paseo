@@ -42,9 +42,7 @@ async def async_setup_entry(
     )
 
 
-class PaseoBaseSensor(
-    CoordinatorEntity[PaseoDataUpdateCoordinator], SensorEntity
-):
+class PaseoBaseSensor(CoordinatorEntity[PaseoDataUpdateCoordinator], SensorEntity):
     """Base class for Paseo sensors."""
 
     _attr_has_entity_name = True

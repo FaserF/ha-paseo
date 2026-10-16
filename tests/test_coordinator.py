@@ -22,7 +22,9 @@ async def test_coordinator_update_success(mock_hass, mock_config_entry, mock_cli
 
 
 @pytest.mark.asyncio
-async def test_coordinator_update_auth_failure(mock_hass, mock_config_entry, mock_client):
+async def test_coordinator_update_auth_failure(
+    mock_hass, mock_config_entry, mock_client
+):
     """Test coordinator update with auth failure."""
     mock_client.async_get_status.side_effect = InvalidAuth("bad key")
     coordinator = PaseoDataUpdateCoordinator(mock_hass, mock_config_entry, mock_client)
@@ -32,7 +34,9 @@ async def test_coordinator_update_auth_failure(mock_hass, mock_config_entry, moc
 
 
 @pytest.mark.asyncio
-async def test_coordinator_update_connect_failure(mock_hass, mock_config_entry, mock_client):
+async def test_coordinator_update_connect_failure(
+    mock_hass, mock_config_entry, mock_client
+):
     """Test coordinator update with connection failure."""
     mock_client.async_get_status.side_effect = CannotConnect("down")
     coordinator = PaseoDataUpdateCoordinator(mock_hass, mock_config_entry, mock_client)

@@ -41,9 +41,7 @@ async def async_setup_entry(
     async_add_entities([PaseoAITaskEntity(entry, client, coordinator)])
 
 
-class PaseoAITaskEntity(
-    CoordinatorEntity[PaseoDataUpdateCoordinator], Entity
-):
+class PaseoAITaskEntity(CoordinatorEntity[PaseoDataUpdateCoordinator], Entity):
     """Paseo AI Task entity for smart home reasoning and autonomous code tasks."""
 
     _attr_has_entity_name = True

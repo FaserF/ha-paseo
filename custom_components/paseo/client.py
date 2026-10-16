@@ -85,7 +85,9 @@ class PaseoClient:
                         raise InvalidAuth("Invalid Paseo password or bearer token")
                     if resp.status != 200:
                         text = await resp.text()
-                        raise CannotConnect(f"HTTP {resp.status} checking status: {text}")
+                        raise CannotConnect(
+                            f"HTTP {resp.status} checking status: {text}"
+                        )
 
                     data = await resp.json()
                     data["latency_ms"] = latency
@@ -93,7 +95,9 @@ class PaseoClient:
         except TimeoutError as err:
             raise CannotConnect(f"Timeout connecting to Paseo at {url}") from err
         except aiohttp.ClientError as err:
-            raise CannotConnect(f"ClientError connecting to Paseo at {url}: {err}") from err
+            raise CannotConnect(
+                f"ClientError connecting to Paseo at {url}: {err}"
+            ) from err
 
     async def async_get_health(self) -> dict[str, Any]:
         """Fetch basic health status from /api/health."""
@@ -108,12 +112,16 @@ class PaseoClient:
                         raise InvalidAuth("Invalid Paseo password or bearer token")
                     if resp.status != 200:
                         text = await resp.text()
-                        raise CannotConnect(f"HTTP {resp.status} checking health: {text}")
+                        raise CannotConnect(
+                            f"HTTP {resp.status} checking health: {text}"
+                        )
                     return await resp.json()
         except TimeoutError as err:
             raise CannotConnect(f"Timeout connecting to Paseo at {url}") from err
         except aiohttp.ClientError as err:
-            raise CannotConnect(f"ClientError connecting to Paseo at {url}: {err}") from err
+            raise CannotConnect(
+                f"ClientError connecting to Paseo at {url}: {err}"
+            ) from err
 
     async def async_call_mcp_rpc(
         self, method: str, params: dict[str, Any] | None = None
@@ -133,7 +141,9 @@ class PaseoClient:
             async with asyncio.timeout(self._timeout):
                 async with session.post(url, headers=headers, json=payload) as resp:
                     if resp.status == 401:
-                        raise InvalidAuth("Unauthorized: Agent MCP endpoint requires valid daemon password")
+                        raise InvalidAuth(
+                            "Unauthorized: Agent MCP endpoint requires valid daemon password"
+                        )
                     if resp.status not in (200, 202):
                         text = await resp.text()
                         raise CannotConnect(f"HTTP {resp.status} on MCP RPC: {text}")
@@ -156,16 +166,22 @@ class PaseoClient:
                         try:
                             msg = json.loads(raw_text)
                         except json.JSONDecodeError as err:
-                            raise PaseoRpcError(f"Invalid JSON response from MCP: {raw_text[:200]}") from err
+                            raise PaseoRpcError(
+                                f"Invalid JSON response from MCP: {raw_text[:200]}"
+                            ) from err
 
                     if msg.get("error"):
                         raise PaseoRpcError(f"Paseo RPC error: {msg['error']}")
 
                     return msg.get("result", msg)
         except TimeoutError as err:
-            raise CannotConnect(f"Timeout communicating with Paseo MCP endpoint at {url}") from err
+            raise CannotConnect(
+                f"Timeout communicating with Paseo MCP endpoint at {url}"
+            ) from err
         except aiohttp.ClientError as err:
-            raise CannotConnect(f"ClientError communicating with Paseo MCP at {url}: {err}") from err
+            raise CannotConnect(
+                f"ClientError communicating with Paseo MCP at {url}: {err}"
+            ) from err
 
     async def async_list_mcp_tools(self) -> list[dict[str, Any]]:
         """List all available tools exposed by the Paseo MCP catalog."""
@@ -243,4 +259,3 @@ class PaseoClient:
         """Stop or interrupt a running Paseo agent."""
         res = await self.async_call_mcp_tool("stop_agent", {"agentId": agent_id})
         return res if isinstance(res, dict) else {"result": res}
-

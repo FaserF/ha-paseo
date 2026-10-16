@@ -58,9 +58,7 @@ class PaseoAiTaskModelSelect(
     @property
     def current_option(self) -> str:
         """Return the current selected AI task model."""
-        return str(
-            self.entry.options.get(CONF_AI_TASK_MODEL, DEFAULT_AI_TASK_MODEL)
-        )
+        return str(self.entry.options.get(CONF_AI_TASK_MODEL, DEFAULT_AI_TASK_MODEL))
 
     async def async_select_option(self, option: str) -> None:
         """Change the selected model."""
