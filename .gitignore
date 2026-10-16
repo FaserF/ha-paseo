@@ -63,4 +63,4 @@ venv.bak/
 
 # macOS
 .DS_Store
-paseo.zip
+*.zip
