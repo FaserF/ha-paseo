@@ -7,8 +7,8 @@ import pytest
 from custom_components.paseo.client import CannotConnect, InvalidAuth
 from custom_components.paseo.config_flow import PaseoConfigFlow, PaseoOptionsFlow
 from custom_components.paseo.const import (
+    CONF_AI_TASK_MODEL,
     CONF_API_KEY,
-    CONF_CONVERSATION_MODEL,
     CONF_NAME,
     CONF_URL,
 )
@@ -115,10 +115,10 @@ async def test_options_flow(mock_hass, mock_config_entry):
 
     save_result = await flow.async_step_init(
         {
-            CONF_CONVERSATION_MODEL: "omniroute/fast-cascade",
+            CONF_AI_TASK_MODEL: "omniroute/fast-cascade",
             "auto_accept": False,
         }
     )
     assert save_result["type"] == "create_entry"
-    assert save_result["data"][CONF_CONVERSATION_MODEL] == "omniroute/fast-cascade"
+    assert save_result["data"][CONF_AI_TASK_MODEL] == "omniroute/fast-cascade"
     assert save_result["data"]["auto_accept"] is False
