@@ -1,6 +1,6 @@
 [project]
 name = "ha-paseo"
-version = "1.0.0"
+version = "1.0.2-dev0"
 description = "Home Assistant custom integration for Paseo Autonomous AI Code Studio & Web IDE."
 authors = [
     {name = "FaserF", email = "github@fabiseitz.de"}
