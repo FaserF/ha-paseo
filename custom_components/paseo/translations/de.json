@@ -1,0 +1,129 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Mit Paseo verbinden",
+        "description": "Konfiguriere die Endpunkt-URL und das optionale Autorisierungspasswort für deinen Paseo-Daemon (Oracle Cloud VM, Home Assistant Edge Add-on oder lokaler Worker).",
+        "data": {
+          "name": "Instanzname",
+          "url": "Daemon-URL",
+          "api_key": "Daemon-Passwort / API-Schlüssel (optional)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung zu Paseo fehlgeschlagen. Bitte prüfe die Endpunkt-URL und den Port (Standard: 6767).",
+      "invalid_auth": "Ungültige Anmeldedaten (Paseo-Passwort fehlerhaft).",
+      "unknown": "Unerwarteter Fehler bei der Kommunikation mit Paseo."
+    },
+    "abort": {
+      "already_configured": "Diese Paseo-Instanz ist bereits konfiguriert."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Paseo Optionen",
+        "description": "Passe Modelle, Arbeitsverzeichnisse, Richtlinien für autonome Ausführung und Reasoning-Prompts an.",
+        "data": {
+          "conversation_model": "Konversations- / Assist-Modell",
+          "prompt": "Assist-Systemprompt (Jinja2-Vorlagen unterstützt)",
+          "ai_task_model": "AI-Task-Modell",
+          "ai_task_prompt": "AI-Task-Systemprompt",
+          "workspace": "Standard-Arbeitsverzeichnis",
+          "auto_accept": "Autonome Ausführung (Tool-Berechtigungen automatisch akzeptieren)",
+          "temperature": "Generierungs-Temperatur",
+          "top_p": "Top P",
+          "max_tokens": "Maximale Tokens",
+          "poll_interval": "Telemetrie-Abrufintervall (Sekunden)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "status": {
+        "name": "Status"
+      },
+      "latency": {
+        "name": "Latenz"
+      },
+      "version": {
+        "name": "Version"
+      },
+      "hostname": {
+        "name": "Hostname"
+      },
+      "active_agents": {
+        "name": "Aktive Agenten"
+      },
+      "tools_count": {
+        "name": "Verfügbare MCP-Tools"
+      },
+      "workspace": {
+        "name": "Arbeitsverzeichnis"
+      }
+    },
+    "binary_sensor": {
+      "connected": {
+        "name": "Verbunden"
+      },
+      "problem": {
+        "name": "Problem"
+      },
+      "busy": {
+        "name": "Beschäftigt"
+      },
+      "edge_addon": {
+        "name": "Edge Add-on Host"
+      }
+    },
+    "button": {
+      "refresh": {
+        "name": "Telemetrie aktualisieren"
+      },
+      "validate_config": {
+        "name": "Konfiguration validieren"
+      }
+    },
+    "switch": {
+      "autonomous_execution": {
+        "name": "Autonome Ausführung"
+      }
+    },
+    "select": {
+      "conversation_model": {
+        "name": "Konversationsmodell"
+      },
+      "ai_task_model": {
+        "name": "AI-Task-Modell"
+      }
+    }
+  },
+  "services": {
+    "create_agent": {
+      "name": "Agent erstellen",
+      "description": "Startet einen autonomen Paseo-Coding-Agenten, um Konfigurationen zu ändern, Blueprints zu erstellen oder Fehler zu beheben."
+    },
+    "send_prompt": {
+      "name": "Prompt an Agent senden",
+      "description": "Sendet Folgeanweisungen oder Feedback an einen bestehenden Paseo-Agenten."
+    },
+    "stop_agent": {
+      "name": "Agent stoppen",
+      "description": "Unterbricht oder bricht einen aktiven Paseo-Agenten ab."
+    },
+    "execute_task": {
+      "name": "AI-Task ausführen",
+      "description": "Einmalige Ausführung einer autonomen Smart-Home-Reasoning- oder Programmieraufgabe."
+    },
+    "validate_config": {
+      "name": "Konfiguration validieren",
+      "description": "Löst eine Konfigurationsprüfung auf der Home Assistant-Installation aus."
+    },
+    "refresh_status": {
+      "name": "Telemetrie aktualisieren",
+      "description": "Erzwingt einen sofortigen Abruf des Paseo-Serverstatus."
+    }
+  }
+}

@@ -1,0 +1,168 @@
+create_agent:
+  name: Create Agent
+  description: Spawn an autonomous Paseo coding agent to modify configurations, create blueprints, or fix bugs.
+  fields:
+    title:
+      name: Task Title
+      description: Descriptive title for the coding task.
+      required: true
+      example: "Add solar battery automation"
+      selector:
+        text:
+    prompt:
+      name: Instructions / Prompt
+      description: Detailed prompt telling the agent what to create, debug, or change.
+      required: true
+      example: "Create an automation in automations.yaml to turn off high power devices when battery is below 20%."
+      selector:
+        text:
+          multiline: true
+    workspace:
+      name: Workspace Path
+      description: Target directory to work inside (defaults to /config).
+      required: false
+      default: "/config"
+      example: "/config"
+      selector:
+        text:
+    role:
+      name: Execution Mode
+      description: Agent execution role (code, plan, build, ask).
+      required: false
+      default: "code"
+      selector:
+        select:
+          options:
+            - label: "Code (Direct editing)"
+              value: "code"
+            - label: "Plan (Architectural plan)"
+              value: "plan"
+            - label: "Build (Compile & Test)"
+              value: "build"
+            - label: "Ask (Consultative)"
+              value: "ask"
+    provider:
+      name: AI Model / Cascade
+      description: LLM provider cascade to power the agent.
+      required: false
+      default: "omniroute/coding-cascade"
+      selector:
+        text:
+    config_entry_id:
+      name: Target Paseo Instance
+      description: Optional config entry ID if multiple Paseo nodes are configured.
+      required: false
+      selector:
+        config_entry:
+          integration: paseo
+
+send_prompt:
+  name: Send Prompt to Agent
+  description: Send follow-up directives or feedback to an existing Paseo agent.
+  fields:
+    agent_id:
+      name: Agent ID
+      description: Unique identifier of the Paseo agent.
+      required: true
+      example: "agent_4a781b2e"
+      selector:
+        text:
+    prompt:
+      name: Prompt
+      description: Steering prompt or additional instructions.
+      required: true
+      example: "Also add a notification when the automation triggers."
+      selector:
+        text:
+          multiline: true
+    config_entry_id:
+      name: Target Paseo Instance
+      description: Optional config entry ID.
+      required: false
+      selector:
+        config_entry:
+          integration: paseo
+
+stop_agent:
+  name: Stop Agent
+  description: Interrupt or abort an active Paseo agent.
+  fields:
+    agent_id:
+      name: Agent ID
+      description: ID of the agent to cancel.
+      required: true
+      example: "agent_4a781b2e"
+      selector:
+        text:
+    config_entry_id:
+      name: Target Paseo Instance
+      description: Optional config entry ID.
+      required: false
+      selector:
+        config_entry:
+          integration: paseo
+
+execute_task:
+  name: Execute AI Task
+  description: One-shot execution of an autonomous smart home reasoning or code task.
+  fields:
+    prompt:
+      name: Prompt
+      description: What task to execute.
+      required: true
+      example: "Check configuration and report unused entities."
+      selector:
+        text:
+          multiline: true
+    title:
+      name: Task Title
+      description: Title for the task.
+      required: false
+      default: "Home Assistant Automation Task"
+      selector:
+        text:
+    workspace:
+      name: Workspace Directory
+      description: Directory to work in.
+      required: false
+      default: "/config"
+      selector:
+        text:
+    role:
+      name: Role Mode
+      description: Mode of operation.
+      required: false
+      default: "code"
+      selector:
+        text:
+    config_entry_id:
+      name: Target Paseo Instance
+      description: Optional config entry ID.
+      required: false
+      selector:
+        config_entry:
+          integration: paseo
+
+validate_config:
+  name: Validate Configuration
+  description: Trigger configuration validation on the Home Assistant installation.
+  fields:
+    config_entry_id:
+      name: Target Paseo Instance
+      description: Optional config entry ID.
+      required: false
+      selector:
+        config_entry:
+          integration: paseo
+
+refresh_status:
+  name: Refresh Telemetry
+  description: Force an immediate polling cycle for Paseo server state.
+  fields:
+    config_entry_id:
+      name: Target Paseo Instance
+      description: Optional config entry ID.
+      required: false
+      selector:
+        config_entry:
+          integration: paseo

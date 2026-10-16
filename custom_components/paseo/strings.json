@@ -1,0 +1,129 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to Paseo",
+        "description": "Configure the endpoint URL and optional authorization password for your Paseo daemon (Oracle Cloud VM, Home Assistant Edge add-on, or local worker).",
+        "data": {
+          "name": "Instance Name",
+          "url": "Daemon URL",
+          "api_key": "Daemon Password / API Key (optional)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to Paseo. Please verify the endpoint URL and port (default: 6767).",
+      "invalid_auth": "Invalid authentication credentials (Paseo password mismatch).",
+      "unknown": "An unexpected error occurred while communicating with Paseo."
+    },
+    "abort": {
+      "already_configured": "This Paseo instance is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Paseo Options",
+        "description": "Fine-tune models, workspace directories, autonomous execution policies, and reasoning prompts.",
+        "data": {
+          "conversation_model": "Conversation / Assist Model",
+          "prompt": "Assist System Prompt (Jinja2 templating supported)",
+          "ai_task_model": "AI Task Model",
+          "ai_task_prompt": "AI Task System Prompt",
+          "workspace": "Default Workspace Path",
+          "auto_accept": "Autonomous Execution (Auto-accept tool permissions)",
+          "temperature": "Generation Temperature",
+          "top_p": "Top P",
+          "max_tokens": "Maximum Tokens",
+          "poll_interval": "Telemetry Polling Interval (seconds)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "status": {
+        "name": "Status"
+      },
+      "latency": {
+        "name": "Latency"
+      },
+      "version": {
+        "name": "Version"
+      },
+      "hostname": {
+        "name": "Hostname"
+      },
+      "active_agents": {
+        "name": "Active Agents"
+      },
+      "tools_count": {
+        "name": "Available MCP Tools"
+      },
+      "workspace": {
+        "name": "Workspace"
+      }
+    },
+    "binary_sensor": {
+      "connected": {
+        "name": "Connected"
+      },
+      "problem": {
+        "name": "Problem"
+      },
+      "busy": {
+        "name": "Busy"
+      },
+      "edge_addon": {
+        "name": "Edge Add-on Host"
+      }
+    },
+    "button": {
+      "refresh": {
+        "name": "Refresh Telemetry"
+      },
+      "validate_config": {
+        "name": "Validate Home Configuration"
+      }
+    },
+    "switch": {
+      "autonomous_execution": {
+        "name": "Autonomous Execution"
+      }
+    },
+    "select": {
+      "conversation_model": {
+        "name": "Conversation Model"
+      },
+      "ai_task_model": {
+        "name": "AI Task Model"
+      }
+    }
+  },
+  "services": {
+    "create_agent": {
+      "name": "Create Agent",
+      "description": "Spawn an autonomous Paseo coding agent to modify configurations, create blueprints, or fix bugs."
+    },
+    "send_prompt": {
+      "name": "Send Prompt to Agent",
+      "description": "Send follow-up directives or feedback to an existing Paseo agent."
+    },
+    "stop_agent": {
+      "name": "Stop Agent",
+      "description": "Interrupt or abort an active Paseo agent."
+    },
+    "execute_task": {
+      "name": "Execute AI Task",
+      "description": "One-shot execution of an autonomous smart home reasoning or code task."
+    },
+    "validate_config": {
+      "name": "Validate Configuration",
+      "description": "Trigger configuration validation on the Home Assistant installation."
+    },
+    "refresh_status": {
+      "name": "Refresh Telemetry",
+      "description": "Force an immediate polling cycle for Paseo server state."
+    }
+  }
+}

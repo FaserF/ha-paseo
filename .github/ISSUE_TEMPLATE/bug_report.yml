@@ -1,0 +1,106 @@
+name: Bug Report
+description: Report a bug with the Paseo Home Assistant integration
+title: '[Bug]: '
+labels: ['bug', 'triage']
+assignees:
+  - FaserF
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Before submitting
+        - 🔍 Search [existing issues](https://github.com/FaserF/ha-paseo/issues) to avoid duplicates
+        - 🔗 View the integration: [![Open your Home Assistant instance and show the paseo integration.](https://my.home-assistant.io/badges/integration.svg)](https://my.home-assistant.io/redirect/integration/?domain=paseo)
+
+  - type: input
+    id: integration_version
+    attributes:
+      label: Integration Version
+      description: Which version of ha-paseo are you running? (HACS or integration page)
+      placeholder: e.g. v1.0.0
+    validations:
+      required: true
+
+  - type: input
+    id: ha_version
+    attributes:
+      label: Home Assistant Version
+      description: |
+        [![Open your Home Assistant instance and show your Home Assistant version information.](https://my.home-assistant.io/badges/info.svg)](https://my.home-assistant.io/redirect/info/)
+      placeholder: e.g. 2026.10.1
+    validations:
+      required: true
+
+  - type: dropdown
+    id: ha_install_type
+    attributes:
+      label: Home Assistant Installation Type
+      description: |
+        Can be found in: [![Open your Home Assistant instance and show your Home Assistant version information.](https://my.home-assistant.io/badges/info.svg)](https://my.home-assistant.io/redirect/info/)
+      options:
+        - Home Assistant OS
+        - Home Assistant Supervised
+        - Home Assistant Container
+        - Home Assistant Core
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: Clear and concise description of what the bug is.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Detailed steps to reproduce the behavior.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Diagnostics Download
+      description: |
+        Please provide the diagnostics file downloaded from:
+        **Settings** -> **Devices & Services** -> **Paseo** -> **⋮** -> **Download diagnostics**
+        (Sensitive data like tokens will be automatically redacted)
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: |
+        Paste relevant log entries here (from Home Assistant logs or Paseo server logs).
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I have searched existing issues and confirmed this is not a duplicate.
+          required: true
+        - label: I have enabled debug logging and checked the logs.
+          required: false
