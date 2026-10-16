@@ -158,21 +158,13 @@ async def async_setup_services(hass: HomeAssistant) -> None:
         _, coordinator = _get_entry_client(hass, call)
         await coordinator.async_request_refresh()
 
-    hass.services.async_register(
-        DOMAIN, SERVICE_CREATE_AGENT, handle_create_agent, schema=SCHEMA_CREATE_AGENT
-    )
-    hass.services.async_register(
-        DOMAIN, SERVICE_SEND_PROMPT, handle_send_prompt, schema=SCHEMA_SEND_PROMPT
-    )
-    hass.services.async_register(
-        DOMAIN, SERVICE_STOP_AGENT, handle_stop_agent, schema=SCHEMA_STOP_AGENT
-    )
-    hass.services.async_register(
-        DOMAIN, SERVICE_EXECUTE_TASK, handle_execute_task, schema=SCHEMA_EXECUTE_TASK
-    )
-    hass.services.async_register(
-        DOMAIN, SERVICE_VALIDATE_CONFIG, handle_validate_config, schema=SCHEMA_TARGET
-    )
-    hass.services.async_register(
-        DOMAIN, SERVICE_REFRESH_STATUS, handle_refresh_status, schema=SCHEMA_TARGET
-    )
+    for name, handler, schema in [
+        (SERVICE_CREATE_AGENT, handle_create_agent, SCHEMA_CREATE_AGENT),
+        (SERVICE_SEND_PROMPT, handle_send_prompt, SCHEMA_SEND_PROMPT),
+        (SERVICE_STOP_AGENT, handle_stop_agent, SCHEMA_STOP_AGENT),
+        (SERVICE_EXECUTE_TASK, handle_execute_task, SCHEMA_EXECUTE_TASK),
+        (SERVICE_VALIDATE_CONFIG, handle_validate_config, SCHEMA_TARGET),
+        (SERVICE_REFRESH_STATUS, handle_refresh_status, SCHEMA_TARGET),
+    ]:
+        if not (hass.services.has_service(DOMAIN, name) is True):
+            hass.services.async_register(DOMAIN, name, handler, schema=schema)
