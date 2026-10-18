@@ -13,7 +13,6 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .client import CannotConnect, InvalidAuth, PaseoClient
 from .const import (
-    AVAILABLE_MODELS,
     CONF_AI_TASK_MODEL,
     CONF_AI_TASK_PROMPT,
     CONF_API_KEY,
