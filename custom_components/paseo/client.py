@@ -38,7 +38,7 @@ class PaseoClient:
         base_url: str,
         api_key: str | None = None,
         session: aiohttp.ClientSession | None = None,
-        timeout: int = 25,
+        timeout: int = 120,
     ) -> None:
         """Initialize the Paseo client."""
         self._base_url = base_url.rstrip("/")

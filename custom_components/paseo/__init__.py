@@ -69,5 +69,30 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 
 async def async_reload_entry(hass: HomeAssistant, entry: ConfigEntry) -> None:
-    """Reload config entry after options change."""
-    await hass.config_entries.async_reload(entry.entry_id)
+    """Handle options update — avoid full reload when possible.
+
+    A full reload is only triggered when the poll interval changes (as the
+    coordinator cannot update its interval at runtime). All other option
+    changes (e.g. model selection, display settings) only trigger a
+    coordinator refresh so entities stay available.
+    """
+    from .const import CONF_POLL_INTERVAL, DEFAULT_POLL_INTERVAL
+
+    entry_data = hass.data.get(DOMAIN, {}).get(entry.entry_id, {})
+    coordinator = entry_data.get("coordinator")
+
+    # Check whether the poll interval changed — if so, full reload is required
+    # because DataUpdateCoordinator.update_interval cannot be changed at runtime.
+    new_poll_interval = entry.options.get(CONF_POLL_INTERVAL, DEFAULT_POLL_INTERVAL)
+    if coordinator is not None:
+        current_interval = coordinator.update_interval
+        from datetime import timedelta
+        new_interval = timedelta(seconds=new_poll_interval)
+        if current_interval != new_interval:
+            # Poll interval changed — full reload required
+            await hass.config_entries.async_reload(entry.entry_id)
+            return
+        # Only a soft refresh needed
+        await coordinator.async_request_refresh()
+    else:
+        await hass.config_entries.async_reload(entry.entry_id)
