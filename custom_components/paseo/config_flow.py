@@ -164,7 +164,7 @@ class PaseoOptionsFlow(config_entries.OptionsFlow):
                 vol.Optional(
                     CONF_POLL_INTERVAL,
                     default=options.get(CONF_POLL_INTERVAL, DEFAULT_POLL_INTERVAL),
-                ): vol.All(vol.Coerce(int), vol.Range(min=10, max=300)),
+                ): vol.All(vol.Coerce(int), vol.Range(min=10, max=3600)),
             }
         )
 
