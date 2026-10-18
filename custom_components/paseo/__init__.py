@@ -87,6 +87,7 @@ async def async_reload_entry(hass: HomeAssistant, entry: ConfigEntry) -> None:
     if coordinator is not None:
         current_interval = coordinator.update_interval
         from datetime import timedelta
+
         new_interval = timedelta(seconds=new_poll_interval)
         if current_interval != new_interval:
             # Poll interval changed — full reload required
