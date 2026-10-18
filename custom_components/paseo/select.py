@@ -43,7 +43,18 @@ class PaseoAiTaskModelSelect(
     _attr_translation_key = "ai_task_model"
     _attr_name = "AI Task Model"
     _attr_icon = "mdi:chip"
-    _attr_options = AVAILABLE_MODELS
+
+    @property
+    def options(self) -> list[str]:
+        """Return available AI task model options dynamically."""
+        if self.coordinator.data and "models" in self.coordinator.data:
+            models = self.coordinator.data.get("models", [])
+            if models:
+                return models
+        current = self.entry.options.get(CONF_AI_TASK_MODEL)
+        if current:
+            return [current]
+        return AVAILABLE_MODELS
 
     def __init__(
         self, coordinator: PaseoDataUpdateCoordinator, entry: ConfigEntry

@@ -24,8 +24,8 @@ CONF_POLL_INTERVAL: Final = "poll_interval"
 # Default values
 DEFAULT_NAME: Final = "Paseo"
 DEFAULT_URL: Final = "http://127.0.0.1:6767"
-DEFAULT_AI_TASK_MODEL: Final = "omniroute/reasoning-latest"
-DEFAULT_FAST_MODEL: Final = "omniroute/fast-cascade"
+DEFAULT_AI_TASK_MODEL: Final = "default"
+DEFAULT_FAST_MODEL: Final = "default"
 DEFAULT_WORKSPACE: Final = "/config"
 DEFAULT_POLL_INTERVAL: Final = 30
 DEFAULT_AUTO_ACCEPT: Final = True
@@ -35,18 +35,8 @@ DEFAULT_AI_TASK_PROMPT: Final = (
     "generate blueprint automations, and provide structured, production-ready solutions."
 )
 
-AVAILABLE_MODELS: Final = [
-    "omniroute/coding-cascade",
-    "omniroute/reasoning-latest",
-    "omniroute/fast-cascade",
-    "omniroute/chat-cascade",
-    "omniroute/claude-sonnet-latest",
-    "omniroute/claude-opus-latest",
-    "omniroute/gemini-flash-latest",
-    "omniroute/codestral-latest-catalog",
-    "omniroute/nemotron-latest",
-    "omniroute/qwen-latest",
-    "omniroute/free-fast-latest",
+AVAILABLE_MODELS: Final[list[str]] = [
+    "default",
 ]
 
 AVAILABLE_MODES: Final = [

@@ -95,7 +95,7 @@ async def async_setup_services(hass: HomeAssistant) -> None:
         prompt = call.data["prompt"]
         workspace = call.data.get("workspace", "/config")
         role = call.data.get("role", "code")
-        provider = call.data.get("provider", "omniroute/coding-cascade")
+        provider = call.data.get("provider")
 
         _LOGGER.info("Spawning Paseo agent: '%s' in workspace '%s'", title, workspace)
         await client.async_create_agent(

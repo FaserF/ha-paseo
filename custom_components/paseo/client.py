@@ -207,15 +207,14 @@ class PaseoClient:
         initial_prompt: str,
         workspace: str = "/config",
         role: str = "code",
-        provider: str = "omniroute/coding-cascade",
+        provider: str | None = None,
         background: bool = True,
     ) -> dict[str, Any]:
         """Spawn an autonomous AI coding agent on Paseo."""
-        payload = {
+        payload: dict[str, Any] = {
             "title": title,
             "initialPrompt": initial_prompt,
             "background": background,
-            "provider": provider,
             "settings": {"modeId": role},
             "labels": {
                 "role": role,
@@ -224,6 +223,8 @@ class PaseoClient:
             },
             "workspaceId": workspace,
         }
+        if provider:
+            payload["provider"] = provider
         res = await self.async_call_mcp_tool("create_agent", payload)
         return res if isinstance(res, dict) else {"result": res}
 

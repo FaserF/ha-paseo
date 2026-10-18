@@ -149,7 +149,7 @@ class PaseoOptionsFlow(config_entries.OptionsFlow):
                 vol.Optional(
                     CONF_AI_TASK_MODEL,
                     default=options.get(CONF_AI_TASK_MODEL, DEFAULT_AI_TASK_MODEL),
-                ): vol.In(AVAILABLE_MODELS),
+                ): str,
                 vol.Optional(
                     CONF_AI_TASK_PROMPT,
                     default=options.get(CONF_AI_TASK_PROMPT, DEFAULT_AI_TASK_PROMPT),

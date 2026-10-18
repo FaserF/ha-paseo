@@ -45,7 +45,6 @@ create_agent:
       name: AI Model / Cascade
       description: LLM provider cascade to power the agent.
       required: false
-      default: "omniroute/coding-cascade"
       selector:
         text:
     config_entry_id:
