@@ -30,7 +30,7 @@ def get_device_info(entry: ConfigEntry, sw_version: str | None = None) -> Device
 
 def redact_sensitive(data: dict[str, Any]) -> dict[str, Any]:
     """Redact sensitive keys like tokens, passwords, and API keys."""
-    redacted = {}
+    redacted: dict[str, Any] = {}
     sensitive_keys = {
         "api_key",
         "password",
